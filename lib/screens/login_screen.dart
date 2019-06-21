@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:kasirin_flutter/styles/color_style.dart';
 import 'package:kasirin_flutter/styles/input_style.dart';
 import 'package:kasirin_flutter/components/button_component.dart';
+import 'package:kasirin_flutter/models/database.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,11 +14,44 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginState extends State<LoginScreen> {
 
+  final database = DBProvider.db;
+  String status    = '';
+
+  void initState() {
+    super.initState();
+
+    init();
+  }
+
+  init() async {
+    final result = await database.getAllData('user');
+    print(result);
+  }
+
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
 
   login() async {
-
+    final response = await database.getData('user', 'username', username.text);
+    print(response);
+    if (response.length != 0) {
+      if (response[0]['password'] == password.text) {
+        this.setState(() {
+          status  = 'Success';
+        });
+        status  = 'Success';
+      } else {
+        this.setState(() {
+          status  = 'Wrong Password';
+        });
+        status  = 'Wrong Password';
+      }
+    } else {
+      this.setState(() {
+        status  = 'No Data';
+      });
+    }
+    print(status);
   }
 
   @override
@@ -50,7 +85,7 @@ class _LoginState extends State<LoginScreen> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: TextField(
-                controller: username,
+                controller: password,
                 decoration: InputDecoration(
                   enabledBorder: InpuStyle.inputBorder,
                   border: InpuStyle.inputBorder,
@@ -70,14 +105,15 @@ class _LoginState extends State<LoginScreen> {
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: RaisedButton(
                 onPressed: () {
-
+                  login();
                 },
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
                 child: ButtonComponent('Login', ColorStyle.blue, ColorStyle.green),
               ),
-            )
+            ),
+            Text(status, style: TextStyle(color: Colors.white),)
           ],
         ),
       ),
