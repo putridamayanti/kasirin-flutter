@@ -1,4 +1,4 @@
-# kasirin_flutter
+# Aplikasi Kasir dengan Flutter
 
 A new Flutter project.
 
