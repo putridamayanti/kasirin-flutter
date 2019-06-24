@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasirin_flutter/styles/color_style.dart';
-import 'package:kasirin_flutter/models/database.dart';
+import 'package:kasirin_flutter/database/database.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,12 +14,12 @@ class _SplashState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    final database = DBProvider.db;
+    final database = DatabaseProvider.dbProvider;
     database.database;
     
-    Future.delayed(Duration(milliseconds: 3000), () {
-      Navigator.pushNamed(context, '/login');
-    });
+     Future.delayed(Duration(milliseconds: 3000), () {
+       Navigator.pushReplacementNamed(context, '/login');
+     });
   }
 
   initDatabase() async {
@@ -42,16 +42,16 @@ class _SplashState extends State<SplashScreen> {
                 Image.asset('assets/images/Kasirin Logo.png', width: 100.0,),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child: Text(
-                'KASIRIN',
-                style: TextStyle(
-                    color: Colors.white,
-                  fontSize: 30.0
-                ),
-              ),
-            )
+//            Padding(
+//              padding: EdgeInsets.only(top: 30.0),
+//              child: Text(
+//                'KASIRIN',
+//                style: TextStyle(
+//                    color: Colors.white,
+//                  fontSize: 30.0
+//                ),
+//              ),
+//            )
           ],
         ),
       ),

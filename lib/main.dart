@@ -10,7 +10,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       initialRoute: '/',
-      routes: routes,
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (BuildContext context) => makeRoute(
+                context: context,
+                routeName: settings.name,
+                arguments: settings.arguments,
+              ),
+          maintainState: true,
+          fullscreenDialog: false,
+        );
+      },
+      // routes: routes,
     );
   }
 }

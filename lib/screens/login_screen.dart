@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:kasirin_flutter/components/input_component.dart';
 import 'package:kasirin_flutter/styles/color_style.dart';
 import 'package:kasirin_flutter/styles/input_style.dart';
 import 'package:kasirin_flutter/components/button_component.dart';
-import 'package:kasirin_flutter/models/database.dart';
+import 'package:kasirin_flutter/repository/user_repository.dart';
+import 'package:kasirin_flutter/models/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,45 +15,98 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginState extends State<LoginScreen> {
 
-  final database = DBProvider.db;
   String status    = '';
+  var showUser      = false;
 
   void initState() {
     super.initState();
 
-    init();
+    fetch();
   }
 
-  init() async {
-    final result = await database.getAllData('user');
-    print(result);
+  fetch() async {
+    // Usertable().getUser(1).then((result) {
+    //   print(result);
+    // });
+
+//    userBloc.getUsers();
   }
 
   TextEditingController username = new TextEditingController();
   TextEditingController password = new TextEditingController();
 
   login() async {
-    final response = await database.getData('user', 'username', username.text);
-    print(response);
-    if (response.length != 0) {
-      if (response[0]['password'] == password.text) {
+//    Usertable().login(username.text, password.text).then((result) {
+//      print(result);
+//      this.setState(() {
+//        if (result['status'] == 'failed') {
+//          status  = result['message'];
+//        } else {
+//          print(result);
+//          status  = 'Success';
+//        }
+//      });
+//    });
+
+    UserRepository().login(username.text, password.text).then((result) {
+      print('Result $result');
+      if (result != null) {
         this.setState(() {
-          status  = 'Success';
+          status  = 'Successfully';
         });
-        status  = 'Success';
+        Future.delayed(Duration(milliseconds: 1000), () {
+          Navigator.pushReplacementNamed(context, '/dashboard');
+        });
       } else {
         this.setState(() {
-          status  = 'Wrong Password';
+          status  = 'No data';
         });
-        status  = 'Wrong Password';
       }
-    } else {
-      this.setState(() {
-        status  = 'No Data';
-      });
-    }
-    print(status);
+    });
+
+//    userBloc.login(username.text, password.text);
+//    Future.delayed(Duration(milliseconds: 1000), () {
+//      this.setState(() {
+//        showUser  = true;
+//      });
+//    });
+//      userBloc.login();
   }
+
+
+//  Widget usernameField() {
+//    return StreamBuilder(
+//      stream: userBloc.username,
+//        builder: (context, snap) {
+//          return TextField(
+//            onChanged: userBloc.changeUsername,
+//            decoration: InputDecoration(
+//                labelText: 'Username',
+//                hintText: 'you@example.com',
+//                errorText: snap.error
+//            ),
+//              style: TextStyle(color: Colors.white)
+//          );
+//        },
+//    );
+//  }
+
+//  Widget passwordField() {
+//    return StreamBuilder(
+//      stream: userBloc.password,
+//      builder: (context, snap) {
+//        return TextField(
+//            onChanged: userBloc.changePassword,
+//          decoration: InputDecoration(
+//              labelText: 'Password',
+//              hintText: 'you@example.com',
+//              errorText: snap.error
+//          ),
+//            style: TextStyle(color: Colors.white)
+//        );
+//      },
+//    );
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,42 +119,68 @@ class _LoginState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: TextField(
+              padding: EdgeInsets.only(bottom: 15.0),
+              child: Image.asset('assets/images/Kasirin Logo.png', width: 50.0,),
+            ),
+            InputComponent(
                 controller: username,
-                decoration: InputDecoration(
-                  enabledBorder: InpuStyle.inputBorder,
-                  border: InpuStyle.inputBorder,
-                  focusedBorder: InpuStyle.inputBorder,
-                  hintText: 'Username',
-                  hintStyle: TextStyle(color: Colors.white30),
-                  prefixIcon: const Icon(
-                    Icons.people,
-                    color: Colors.white,
-                  ),
-                ),
-                style: TextStyle(color: Colors.white),
-              ),
+                style: InputStyle.roundPinkInput,
+                hint: 'Username',
+                icon: Icons.people,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: TextField(
-                controller: password,
-                decoration: InputDecoration(
-                  enabledBorder: InpuStyle.inputBorder,
-                  border: InpuStyle.inputBorder,
-                  focusedBorder: InpuStyle.inputBorder,
-                  hintText: 'Password',
-                  hintStyle: TextStyle(color: Colors.white30),
-                  prefixIcon: const Icon(
-                    Icons.lock,
-                    color: Colors.white,
-                  ),
-                ),
-                style: TextStyle(color: Colors.white),
-                obscureText: true,
-              ),
+            InputComponent(
+              controller: password,
+              style: InputStyle.roundPinkInput,
+              hint: 'Password',
+              icon: Icons.lock,
+              obscureText: true,
             ),
+//            InputComponent(password, InputStyle.roundBlueInput, 'Password', Icons.lock, true),
+//            Padding(
+//              padding: EdgeInsets.symmetric(vertical: 10.0),
+//              child: TextField(
+//                controller: username,
+//                decoration: InputDecoration(
+//                  enabledBorder: InpuStyle.inputBorder,
+//                  border: InpuStyle.inputBorder,
+//                  focusedBorder: InpuStyle.inputBorder,
+//                  hintText: 'Username',
+//                  hintStyle: TextStyle(color: Colors.white30),
+//                  prefixIcon: const Icon(
+//                    Icons.people,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//                style: TextStyle(color: Colors.white),
+//              ),
+//            ),
+//            Padding(
+//              padding: EdgeInsets.symmetric(vertical: 10.0),
+//              child: TextField(
+//                controller: password,
+//                decoration: InputDecoration(
+//                  enabledBorder: InpuStyle.inputBorder,
+//                  border: InpuStyle.inputBorder,
+//                  focusedBorder: InpuStyle.inputBorder,
+//                  hintText: 'Password',
+//                  hintStyle: TextStyle(color: Colors.white30),
+//                  prefixIcon: const Icon(
+//                    Icons.lock,
+//                    color: Colors.white,
+//                  ),
+//                ),
+//                style: TextStyle(color: Colors.white),
+//                obscureText: true,
+//              ),
+//            ),
+//            Padding(
+//              padding: EdgeInsets.symmetric(vertical: 10.0),
+//              child: usernameField(),
+//            ),
+//            Padding(
+//              padding: EdgeInsets.symmetric(vertical: 10.0),
+//              child: passwordField(),
+//            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: RaisedButton(
@@ -110,7 +190,7 @@ class _LoginState extends State<LoginScreen> {
                 textColor: Colors.white,
                 padding: const EdgeInsets.all(0.0),
                 shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-                child: ButtonComponent('Login', ColorStyle.blue, ColorStyle.green),
+                child: ButtonComponent('Login', ColorStyle.purple, ColorStyle.pink),
               ),
             ),
             Text(status, style: TextStyle(color: Colors.white),)
