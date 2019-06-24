@@ -10,22 +10,26 @@ class ButtonComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-                      width: 500,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: <Color>[
-                            gradient1,
-                            gradient2,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(80.0))
-                      ),
-                      padding: EdgeInsets.all(16.0),
-                      child: Text(
-                          text,
-                          textAlign: TextAlign.center,
-                      ),
-                    );
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      child: Container(
+        width: 500,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: <Color>[
+                gradient1,
+                gradient2,
+              ],
+            ),
+            borderRadius: BorderRadius.all(Radius.circular(80.0))
+        ),
+        padding: EdgeInsets.all(16.0),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
   }
 }

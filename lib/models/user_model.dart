@@ -48,4 +48,13 @@ class UserModel {
     };
   }
 }
-  
+
+class UserArguments {
+  int id;
+  String username;
+  String name;
+  String password;
+  String role;
+
+  UserArguments({this.id, this.name, this.username, this.password, this.role});
+}

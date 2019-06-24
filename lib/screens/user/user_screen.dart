@@ -3,6 +3,7 @@ import 'package:kasirin_flutter/components/drawer_component.dart';
 import 'package:kasirin_flutter/components/header_component.dart';
 import 'package:kasirin_flutter/models/user_model.dart';
 import 'package:kasirin_flutter/repository/user_repository.dart';
+import 'package:kasirin_flutter/screens/user/form_user_screen.dart';
 import 'package:kasirin_flutter/styles/color_style.dart';
 
 class UserScreen extends StatefulWidget {
@@ -40,16 +41,34 @@ class _UserState extends State<UserScreen> {
     });
   }
 
-  Widget CardList(id, name, role, data) {
+  Widget CardList(id, name, username, password, role) {
     return Card(
       color: ColorStyle.dark,
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, '/form/user', arguments: {
-            id: id,
-            name: name, 
-            role: role
-          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormUserScreen(),
+              // Pass the arguments as part of the RouteSettings. The
+              // ExtractArgumentScreen reads the arguments from these
+              // settings.
+              settings: RouteSettings(
+                arguments: UserArguments(
+                  id: id,
+                  name: name,
+                  username: username,
+                  password: password,
+                  role: role
+                ),
+              ),
+            ),
+          );
+//          Navigator.pushNamed(context, '/form/user', arguments: {
+//            id: id,
+//            name: name,
+//            role: role
+//          });
         },
         child: Padding(
         padding: EdgeInsets.all(15.0),
@@ -96,7 +115,7 @@ class _UserState extends State<UserScreen> {
                           itemCount: users != null ? users.length : 0,
                           itemBuilder: (BuildContext context, int index){
                             // print(users[index]);
-                            return CardList(users[index].id, users[index].name, users[index].role, users[index]);
+                            return CardList(users[index].id, users[index].name, users[index].username, users[index].password, users[index].role);
                           },
                         )
                       ],
