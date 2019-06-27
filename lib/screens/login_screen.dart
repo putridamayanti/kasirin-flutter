@@ -183,15 +183,9 @@ class _LoginState extends State<LoginScreen> {
 //            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
-              child: RaisedButton(
-                onPressed: () {
-                  login();
-                },
-                textColor: Colors.white,
-                padding: const EdgeInsets.all(0.0),
-                shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(80.0)),
-                child: ButtonComponent('Login', ColorStyle.purple, ColorStyle.pink),
-              ),
+              child: ButtonComponent('Login', ColorStyle.purple, ColorStyle.pink, () {
+                login();
+              })
             ),
             Text(status, style: TextStyle(color: Colors.white),)
           ],

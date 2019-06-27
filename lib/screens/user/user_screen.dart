@@ -26,15 +26,9 @@ class _UserState extends State<UserScreen> {
 
   getAllUser() {
     UserRepository().getAllUser().then((result) {
-      // print(result);
       this.setState(() {
-        // result.map((user) {
-        //   print(user);
-        //   users.add(UserModel.fromMap(user));
-        // });
         result.forEach((user) {
           print(user);
-          // UserModel.fromMap(user).toString()
           users.add(UserModel.fromMap(user));
         });
       });
@@ -50,25 +44,18 @@ class _UserState extends State<UserScreen> {
             context,
             MaterialPageRoute(
               builder: (context) => FormUserScreen(),
-              // Pass the arguments as part of the RouteSettings. The
-              // ExtractArgumentScreen reads the arguments from these
-              // settings.
               settings: RouteSettings(
                 arguments: UserArguments(
                   id: id,
                   name: name,
                   username: username,
                   password: password,
-                  role: role
+                  role: role,
+                  totalData: users.length
                 ),
               ),
             ),
           );
-//          Navigator.pushNamed(context, '/form/user', arguments: {
-//            id: id,
-//            name: name,
-//            role: role
-//          });
         },
         child: Padding(
         padding: EdgeInsets.all(15.0),
@@ -76,6 +63,7 @@ class _UserState extends State<UserScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(name, style: TextStyle(color: Colors.white, fontSize: 18.0),),
                 Text(role, style: TextStyle(color: Colors.white24),)
@@ -114,21 +102,42 @@ class _UserState extends State<UserScreen> {
                           shrinkWrap: true,
                           itemCount: users != null ? users.length : 0,
                           itemBuilder: (BuildContext context, int index){
-                            // print(users[index]);
                             return CardList(users[index].id, users[index].name, users[index].username, users[index].password, users[index].role);
                           },
                         )
                       ],
                     ),
                   ),
-                )
+                ),
+                
               ],
             ),
             )
           ),
           HeaderComponent(title: 'Pengguna', gradient1: ColorStyle.darkBlue, gradient2: ColorStyle.darkBlue),
         ],
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FormUserScreen(),
+              // Pass the arguments as part of the RouteSettings. The
+              // ExtractArgumentScreen reads the arguments from these
+              // settings.
+              settings: RouteSettings(
+                arguments: UserArguments(
+                  id: 0,
+                  totalData: users.length
+                ),
+              ),
+            ),
+          );
+                  },
+                  child: Icon(Icons.add),
+                  backgroundColor: ColorStyle.pink,
+                ),
     );
   }
 

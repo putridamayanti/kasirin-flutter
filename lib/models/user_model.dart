@@ -55,6 +55,7 @@ class UserArguments {
   String name;
   String password;
   String role;
+  int totalData;
 
-  UserArguments({this.id, this.name, this.username, this.password, this.role});
+  UserArguments({this.id, this.name, this.username, this.password, this.role, this.totalData});
 }

@@ -1,5 +1,6 @@
 import 'package:kasirin_flutter/database/database.dart';
 import 'package:kasirin_flutter/models/user_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 class UserRepository {
 
@@ -11,21 +12,13 @@ class UserRepository {
     var result  = await db.query('user');
 
     return result.toList();
-    // print(result);
-    // List<UserModel> _users = result.isNotEmpty
-    //     ? result.map((item) => UserModel.fromDatabaseJson(item)).toList()
-    //     : [];
-
-    // return _users;
   }
 
   Future<List<UserModel>> getUser(id) async {
-    print('Get $id');
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>> result;
     result  = await db.query('user', where: 'id = ?', whereArgs: [id]);
-    print(result);
     List<UserModel> _user = result.isNotEmpty
         ? result.map((item) => UserModel.fromDatabaseJson(item)).toList()
         : [];
@@ -48,27 +41,23 @@ class UserRepository {
         return data;
       }
     }
-//    return result.isNotEmpty
-//        ? UserModel.fromDatabaseJson(result.first)
-//        : [];
-
-//    if (result.length == 0) {
-//      return {
-//        'status'  : 'failed',
-//        'message' : 'No Data'
-//      };
-//    } else {
-//      print(result[0]['password']);
-//      if (result[0]['password'] == password) {
-//        List<UserModel> _user = result.map((item) => UserModel.fromDatabaseJson(item)).toList();
-//        return _user;
-//      } else {
-//        return {
-//          'status'  : 'failed',
-//          'message' : 'Password Missmatch'
-//        };
-//      }
-//    }
   }
 
+  Future storeUser(UserModel user) async {
+    final db = await dbProvider.database;
+
+    var result = await db.insert('user', user.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future updateUser(UserModel user) async {
+    final db = await dbProvider.database;
+
+    var result = await db.update('user', user.toMap(), where: 'id = ?', whereArgs: [user.id]);
+  }
+
+  Future deleteUser(id) async {
+    final db = await dbProvider.database;
+
+    var result = await db.delete('user', where: 'id = ?', whereArgs: [id]);
+  }
 }
