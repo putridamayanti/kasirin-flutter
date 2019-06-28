@@ -4,7 +4,7 @@ import 'package:kasirin_flutter/styles/color_style.dart';
 import 'package:kasirin_flutter/styles/input_style.dart';
 import 'package:kasirin_flutter/components/button_component.dart';
 import 'package:kasirin_flutter/repository/user_repository.dart';
-import 'package:kasirin_flutter/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -36,24 +36,14 @@ class _LoginState extends State<LoginScreen> {
   TextEditingController password = new TextEditingController();
 
   login() async {
-//    Usertable().login(username.text, password.text).then((result) {
-//      print(result);
-//      this.setState(() {
-//        if (result['status'] == 'failed') {
-//          status  = result['message'];
-//        } else {
-//          print(result);
-//          status  = 'Success';
-//        }
-//      });
-//    });
-
-    UserRepository().login(username.text, password.text).then((result) {
+    UserRepository().login(username.text, password.text).then((result) async {
       print('Result $result');
       if (result != null) {
         this.setState(() {
           status  = 'Successfully';
         });
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('logged_in', true);
         Future.delayed(Duration(milliseconds: 1000), () {
           Navigator.pushReplacementNamed(context, '/dashboard');
         });
@@ -63,50 +53,7 @@ class _LoginState extends State<LoginScreen> {
         });
       }
     });
-
-//    userBloc.login(username.text, password.text);
-//    Future.delayed(Duration(milliseconds: 1000), () {
-//      this.setState(() {
-//        showUser  = true;
-//      });
-//    });
-//      userBloc.login();
   }
-
-
-//  Widget usernameField() {
-//    return StreamBuilder(
-//      stream: userBloc.username,
-//        builder: (context, snap) {
-//          return TextField(
-//            onChanged: userBloc.changeUsername,
-//            decoration: InputDecoration(
-//                labelText: 'Username',
-//                hintText: 'you@example.com',
-//                errorText: snap.error
-//            ),
-//              style: TextStyle(color: Colors.white)
-//          );
-//        },
-//    );
-//  }
-
-//  Widget passwordField() {
-//    return StreamBuilder(
-//      stream: userBloc.password,
-//      builder: (context, snap) {
-//        return TextField(
-//            onChanged: userBloc.changePassword,
-//          decoration: InputDecoration(
-//              labelText: 'Password',
-//              hintText: 'you@example.com',
-//              errorText: snap.error
-//          ),
-//            style: TextStyle(color: Colors.white)
-//        );
-//      },
-//    );
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +66,8 @@ class _LoginState extends State<LoginScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 15.0),
-              child: Image.asset('assets/images/Kasirin Logo.png', width: 50.0,),
+              padding: EdgeInsets.only(bottom: 5.0),
+              child: Image.asset('assets/images/Kasirin Logo.png', width: 40.0,),
             ),
             InputComponent(
                 controller: username,
@@ -135,52 +82,6 @@ class _LoginState extends State<LoginScreen> {
               icon: Icons.lock,
               obscureText: true,
             ),
-//            InputComponent(password, InputStyle.roundBlueInput, 'Password', Icons.lock, true),
-//            Padding(
-//              padding: EdgeInsets.symmetric(vertical: 10.0),
-//              child: TextField(
-//                controller: username,
-//                decoration: InputDecoration(
-//                  enabledBorder: InpuStyle.inputBorder,
-//                  border: InpuStyle.inputBorder,
-//                  focusedBorder: InpuStyle.inputBorder,
-//                  hintText: 'Username',
-//                  hintStyle: TextStyle(color: Colors.white30),
-//                  prefixIcon: const Icon(
-//                    Icons.people,
-//                    color: Colors.white,
-//                  ),
-//                ),
-//                style: TextStyle(color: Colors.white),
-//              ),
-//            ),
-//            Padding(
-//              padding: EdgeInsets.symmetric(vertical: 10.0),
-//              child: TextField(
-//                controller: password,
-//                decoration: InputDecoration(
-//                  enabledBorder: InpuStyle.inputBorder,
-//                  border: InpuStyle.inputBorder,
-//                  focusedBorder: InpuStyle.inputBorder,
-//                  hintText: 'Password',
-//                  hintStyle: TextStyle(color: Colors.white30),
-//                  prefixIcon: const Icon(
-//                    Icons.lock,
-//                    color: Colors.white,
-//                  ),
-//                ),
-//                style: TextStyle(color: Colors.white),
-//                obscureText: true,
-//              ),
-//            ),
-//            Padding(
-//              padding: EdgeInsets.symmetric(vertical: 10.0),
-//              child: usernameField(),
-//            ),
-//            Padding(
-//              padding: EdgeInsets.symmetric(vertical: 10.0),
-//              child: passwordField(),
-//            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: ButtonComponent('Login', ColorStyle.purple, ColorStyle.pink, () {

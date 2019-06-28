@@ -8,13 +8,21 @@ class InputComponent extends StatelessWidget {
   final String hint;
   final icon;
   final obscureText;
+  final keyboardType;
 
-  InputComponent({this.controller, this.style, this.hint, this.icon, this.obscureText = false});
+  InputComponent({
+    this.controller, 
+    this.style, 
+    this.hint, 
+    this.icon, 
+    this.obscureText = false,
+    this.keyboardType = TextInputType.text
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.0),
+        padding: EdgeInsets.symmetric(vertical: 5.0),
         child: TextField(
           controller: controller,
           decoration: InputDecoration(

@@ -36,7 +36,9 @@ class HeaderComponent extends StatelessWidget {
             actions: <Widget>[
               IconButton(
                   icon: Icon(Icons.people, color: Colors.white,),
-                  onPressed: null
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/account');
+                  }
               )
             ],
             centerTitle: true,

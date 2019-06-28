@@ -27,17 +27,13 @@ class UserRepository {
   }
 
   Future login(username, password) async {
-    print('Login Repo');
     final db = await dbProvider.database;
 
     List<Map<String, dynamic>> result;
     result  = await db.query('user', where: 'username = ?', whereArgs: [username]);
-    print(result);
     if (result.isNotEmpty) {
       var data  = result.first;
-      print('Data first $data');
       if (data['password'] == password) {
-        print('Match');
         return data;
       }
     }
