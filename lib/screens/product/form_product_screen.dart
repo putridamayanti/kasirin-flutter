@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasirin_flutter/components/button_component.dart';
+import 'package:kasirin_flutter/components/drawer_component.dart';
 import 'package:kasirin_flutter/components/header_component.dart';
 import 'package:kasirin_flutter/components/input_component.dart';
 import 'package:kasirin_flutter/models/product_model.dart';

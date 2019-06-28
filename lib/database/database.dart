@@ -10,7 +10,6 @@ class DatabaseProvider {
   Database _database;
 
   Future<Database> get database async {
-//    print(_database);
     if (_database != null) return _database;
     _database = await createDatabase();
     await insertAdmin();
@@ -18,7 +17,6 @@ class DatabaseProvider {
   }
 
   createDatabase() async {
-//    print('New database created');
     Directory directory = await getApplicationDocumentsDirectory();
     String path         = join(directory.path, 'kasirin.db');
     var database = await openDatabase(path,
@@ -37,6 +35,20 @@ class DatabaseProvider {
         "name varchar(50),"
         "password varchar(50),"
         "role varchar(50)"
+        ")");
+
+    await database.execute("CREATE TABLE product ("
+        "id INTEGER PRIMARY KEY,"
+        "name varchar(50),"
+        "price varchar(50),"
+        "stock varchar(50)"
+        ")");
+
+    await database.execute("CREATE TABLE transaction ("
+        "id INTEGER PRIMARY KEY,"
+        "user_id INTEGER,"
+        "product_id INTEGER,"
+        "date varchar(100)"
         ")");
   }
 
