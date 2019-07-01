@@ -7,6 +7,7 @@ class ProductModel {
   ProductModel({ this.id, this.name, this.price, this.stock });
 
   factory ProductModel.fromMap(Map<String, dynamic> data) {
+    print(data);
     return ProductModel(
       id: data['id'],
       name: data['name'],

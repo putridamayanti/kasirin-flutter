@@ -10,7 +10,7 @@ class ProductRepository {
     final db = await dbProvider.database;
 
     var result  = await db.query('product');
-
+    print(result);
     return result.toList();
   }
 

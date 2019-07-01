@@ -25,6 +25,12 @@ class DrawerComponent extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/user');
             },
           ),
+          ListTile(
+            title: Text('Produk'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/product');
+            },
+          ),
         ],
       ),
     );

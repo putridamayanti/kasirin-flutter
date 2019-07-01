@@ -62,11 +62,11 @@ class _FormProductState extends State<FormProductScreen> {
   Widget build(BuildContext context) {
     final ProductArguments args  = ModalRoute.of(context).settings.arguments;
     if (args.id != 0) {
+      name.value    = TextEditingValue(text: args.name, selection: name.selection);
+      price.value   = TextEditingValue(text: args.price, selection: price.selection);
+      stock.value   = TextEditingValue(text: args.stock, selection: stock.selection);
       this.setState(() {
         id              = args.id;
-        name.text       = args.name;
-        price.text      = args.price;
-        stock.text      = args.stock;
         totalData       = args.totalData;
       });
     } else {
@@ -89,25 +89,25 @@ class _FormProductState extends State<FormProductScreen> {
                   children: <Widget>[
                     InputComponent(
                       controller: name,
-                      style: InputStyle.roundPinkInput,
+                      style: InputStyle.roundBlueInput,
                       hint: name.text == '' ? 'Name' : '',
                       icon: Icons.people,
                     ),
                     InputComponent(
                       controller: price,
-                      style: InputStyle.roundPinkInput,
+                      style: InputStyle.roundBlueInput,
                       hint: price.text == '' ? 'Price' : '',
                       icon: Icons.monetization_on,
                       keyboardType: TextInputType.number,
                     ),
                     InputComponent(
                       controller: stock,
-                      style: InputStyle.roundPinkInput,
+                      style: InputStyle.roundBlueInput,
                       hint: stock.text == '' ? 'Stock' : '',
                       icon: Icons.folder,
                       keyboardType: TextInputType.number,
                     ),
-                    ButtonComponent('Simpan', ColorStyle.purple, ColorStyle.pink, () {
+                    ButtonComponent('Simpan', ColorStyle.blue, ColorStyle.green, () {
                       saveProduct();
                     }),
                     Padding(

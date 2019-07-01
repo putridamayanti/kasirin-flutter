@@ -97,11 +97,12 @@ class _FormUserState extends State<FormUserScreen> {
   Widget build(BuildContext context) {
     final UserArguments args  = ModalRoute.of(context).settings.arguments;
     if (args.id != 0) {
+      name.value        = TextEditingValue(text: args.name, selection: name.selection);
+      username.value    = TextEditingValue(text: args.username, selection: username.selection);
+      password.value    = TextEditingValue(text: args.password, selection: password.selection);
+
       this.setState(() {
         id              = args.id;
-        name.text       = args.name;
-        username.text   = args.username;
-        password.text   = args.password;
         _currentRole    = args.role;
         totalData       = args.totalData;
       });

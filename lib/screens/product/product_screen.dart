@@ -16,7 +16,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductState extends State<ProductScreen> {
 
-  List products;
+  List products = new List();
 
   void initState() {
     super.initState();
@@ -28,7 +28,7 @@ class _ProductState extends State<ProductScreen> {
     ProductRepository().getAllProduct().then((result) {
       this.setState(() {
         result.forEach((product) {
-          print(product);
+          // print(product);
           products.add(ProductModel.fromMap(product));
         });
       });
@@ -115,7 +115,7 @@ class _ProductState extends State<ProductScreen> {
             ),
             )
           ),
-          HeaderComponent(title: 'Pengguna', gradient1: ColorStyle.darkBlue, gradient2: ColorStyle.darkBlue),
+          HeaderComponent(title: 'Produk', gradient1: ColorStyle.darkBlue, gradient2: ColorStyle.darkBlue),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -130,14 +130,14 @@ class _ProductState extends State<ProductScreen> {
               settings: RouteSettings(
                 arguments: ProductArguments(
                   id: 0,
-                  totalData: products.length
+                  totalData: products != null ? products.length : 0
                 ),
               ),
             ),
           );
                   },
                   child: Icon(Icons.add),
-                  backgroundColor: ColorStyle.pink,
+                  backgroundColor: ColorStyle.blue,
                 ),
     );
   }

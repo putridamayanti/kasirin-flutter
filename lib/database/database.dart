@@ -20,16 +20,18 @@ class DatabaseProvider {
     Directory directory = await getApplicationDocumentsDirectory();
     String path         = join(directory.path, 'kasirin.db');
     var database = await openDatabase(path,
-        version: 1, onCreate: initDB, onUpgrade: onUpgrade);
+        version: 2, onCreate: initDB, onUpgrade: onUpgrade);
     return database;
   }
 
   void onUpgrade(Database database, int oldVersion, int newVersion) {
-    if (newVersion > oldVersion) {}
+    if (newVersion > oldVersion) {
+      initDB(database, newVersion);
+    }
   }
 
   void initDB(Database database, int version) async {
-    await database.execute("CREATE TABLE user ("
+    await database.execute("CREATE TABLE IF NOT EXISTS user ("
         "id INTEGER PRIMARY KEY,"
         "username varchar(50),"
         "name varchar(50),"
@@ -37,19 +39,22 @@ class DatabaseProvider {
         "role varchar(50)"
         ")");
 
-    await database.execute("CREATE TABLE product ("
+    await database.execute("CREATE TABLE IF NOT EXISTS product ("
         "id INTEGER PRIMARY KEY,"
         "name varchar(50),"
         "price varchar(50),"
         "stock varchar(50)"
         ")");
 
-    await database.execute("CREATE TABLE transaction ("
+    await database.execute("CREATE TABLE IF NOT EXISTS transaction ("
         "id INTEGER PRIMARY KEY,"
-        "user_id INTEGER,"
-        "product_id INTEGER,"
-        "date varchar(100)"
+        "user_id varchar(50),"
+        "product_id varchar(50),"
+        "qty varchar(50),"
+        "date varchar(50)"
         ")");
+    
+    print('Database created');
   }
 
   Future<int> insertAdmin() async {
@@ -58,7 +63,6 @@ class DatabaseProvider {
     final List<Map<String, dynamic>> response = await db.query('user',  where: 'id = ?', whereArgs: [1]);
     if (response.length == 0) {
       var response  = await db.insert('user', user.toMap());
-//      print('Created user $response');
       return response;
     }
   }

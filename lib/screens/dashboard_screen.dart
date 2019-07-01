@@ -141,7 +141,7 @@ class _DashboardState extends State<DashboardScreen> {
                         ),
                       ),
                       CardMenu(Icons.people, 'Pengguna', '/user'),
-                      CardMenu(Icons.layers, 'Produk', '/produk'),
+                      CardMenu(Icons.layers, 'Produk', '/product'),
                       CardMenu(Icons.swap_horiz, 'Transaksi', '/transaction'),
                     ],
                   ),
