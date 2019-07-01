@@ -39,6 +39,8 @@ class DatabaseProvider {
         "role varchar(50)"
         ")");
 
+    await database.execute("CREATE TABLE IF NOT EXISTS transactions (id INTEGER PRIMARY KEY,user_id varchar(50),product_id varchar(50),qty varchar(50),created_date varchar(50))");
+
     await database.execute("CREATE TABLE IF NOT EXISTS product ("
         "id INTEGER PRIMARY KEY,"
         "name varchar(50),"
@@ -46,13 +48,13 @@ class DatabaseProvider {
         "stock varchar(50)"
         ")");
 
-    await database.execute("CREATE TABLE IF NOT EXISTS transaction ("
-        "id INTEGER PRIMARY KEY,"
-        "user_id varchar(50),"
-        "product_id varchar(50),"
-        "qty varchar(50),"
-        "date varchar(50)"
-        ")");
+//    await database.execute("CREATE TABLE IF NOT EXISTS transaction ("
+//        "id INTEGER PRIMARY KEY,"
+//        "user_id varchar(50),"
+//        "product_id varchar(50),"
+//        "qty varchar(50),"
+//        "created_date varchar(50)"
+//        ")");
     
     print('Database created');
   }

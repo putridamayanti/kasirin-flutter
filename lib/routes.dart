@@ -15,5 +15,6 @@ import 'package:kasirin_flutter/screens/user/user_screen.dart';
    '/user'         : (context) => (UserScreen()),
    '/user/form'    : (context) => (FormUserScreen()),
    '/account'      : (context) => (AccountScreen()),
-   '/product'       : (context) => (ProductScreen())
+   '/product'       : (context) => (ProductScreen()),
+   '/transaction'   : (context) => (TransactionScreen()),
  };
